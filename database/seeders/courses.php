@@ -15,16 +15,37 @@ class courses extends Seeder
     public function run()
     {
         $data =  
-        [[
-            'name' => 'Khóa học lập trình C++ căn bản',
-            'description' => 'Hiện nay, C++ đã là cái tên rất quen thuộc trong ngành lập trình. Mặc dù C++ là ngôn ngữ lập trình đã ra đời khá lâu, nhưng không phải ai cũng có cơ hội để tìm hiểu về nó. Vì vậy, Kteam.',
-            'img' => 'https://trungtq.com/wp-content/uploads/2018/12/c-sharp-logo-filled.png'
-        ],
         [
-            'name' => 'Lập trình Python cơ bản',
-            'description' => 'Với mục đích giới thiệu đến mọi người NGÔN NGỮ PYTHON, một ngôn ngữ lập trình khá mới mẻ so với C, C++, Java, PHP ở Việt Nam. Thông qua khóa học LẬP TRÌNH PYTHON CƠ BẢN.',
-            'img' => 'https://vietnix.vn/wp-content/uploads/2021/07/python-la-gi.webp'
-        ]];
+            [
+                'key' => 'C/C++',
+                'name' => 'Lập Trình Căn Bản',
+                'description' => ' Khóa học này cung cấp cho các bạn các kiến thức nền tảng về lập trình'
+            ],
+            [
+                'key' => 'C/C++',
+                'name' => 'Lập Trình Hướng đói tượng',
+                'description' => 'Khóa học cung cấp cho bạn các kiến thức về Hướng đối tượng',
+                'color' => 'teal;indigo'
+            ],
+            [
+                'key' => 'Java',
+                'name' => 'Lập Trình Java Căn bản',
+                'description' => ' Khóa học này cung cấp cho các bạn các kiến thức nền tảng về lập trình',
+                'color' => 'orangered;orange'
+            ],
+            [
+                'key' => 'Python',
+                'name' => 'Lập Trình Python căn bản',
+                'description' => 'Khóa học cung cấp cho bạn các kiến thức về Hướng đối tượng',
+                'color' => 'blue;green'
+            ],
+            [
+                'key' => 'Web FE',
+                'name' => 'Lập trình web tĩnh với html và css',
+                'description' => 'Khóa học cung cấp cho bạn các kiến thức về Hướng đối tượng',
+                'color' => 'violet;#007bff'
+            ],
+        ];
         foreach($data as $dt)
         {
             DB::table('courses')->insert($dt);

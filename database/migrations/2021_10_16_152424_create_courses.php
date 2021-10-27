@@ -15,12 +15,12 @@ class CreateCourses extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->text("description");
-            $table->unsignedInteger("price")->default(0);
-            $table->float("avg_evaluate")->default(0);
-            $table->tinyInteger("status")->default(1);
-            $table->string('img');
+            $table->string('name');
+            $table->text('description');
+            $table->string('key', 8);
+            $table->string('color')->default('red;blue');
+            $table->unsignedInteger('price')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

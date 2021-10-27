@@ -17,47 +17,58 @@ class regis extends Seeder
         $data=[
             [
                 'id_user'=>2,
-                'id_course'=>1
+                'id_course'=>1,
+                'evaluate'=>5
             ],
             [
                 'id_user' => 3,
-                'id_course' => 1
+                'id_course' => 1,
+                'evaluate' => 4
             ],
             [
                 'id_user' => 4,
-                'id_course' => 1
+                'id_course' => 1,
+                'evaluate' => 5
             ],
             [
                 'id_user' => 5,
-                'id_course' => 1
+                'id_course' => 1,
+                'evaluate' => 4
             ],
             [
                 'id_user' => 6,
-                'id_course' => 1
+                'id_course' => 1,
+                'evaluate' => 5
             ],
             [
                 'id_user' => 7,
-                'id_course' => 1
+                'id_course' => 1,
+                'evaluate' => 5
             ],
             [
                 'id_user' => 8,
-                'id_course' => 1
+                'id_course' => 1,
+                'evaluate' => 5
             ],
             [
                 'id_user' => 9,
-                'id_course' => 1
+                'id_course' => 1,
+                'evaluate' => 5
             ],
             [
                 'id_user' => 10,
-                'id_course' => 1
+                'id_course' => 1,
+                'evaluate' => 5
             ],
             [
                 'id_user' => 11,
-                'id_course' => 2
+                'id_course' => 2,
+                'evaluate' => 4
             ],
             [
                 'id_user' => 12,
-                'id_course' => 2
+                'id_course' => 2,
+                'evaluate' => 4
             ],
             [
                 'id_user' => 13,

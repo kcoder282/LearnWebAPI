@@ -15,7 +15,7 @@ class CreateATest extends Migration
     {
         Schema::create('a_test', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_question')->unsigned();
+            $table->bigInteger('id_question')->unsigned();
             $table->foreign('id_question')->references('id')->on('questions')->cascadeOnDelete();
             $table->string('input');
             $table->string('output');

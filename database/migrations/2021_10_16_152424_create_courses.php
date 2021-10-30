@@ -18,7 +18,7 @@ class CreateCourses extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('key', 8);
-            $table->string('color')->default('red;blue');
+            $table->string('color')->default('#2E3192,#1BFFFF');
             $table->unsignedInteger('price')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

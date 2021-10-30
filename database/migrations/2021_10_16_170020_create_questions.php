@@ -15,9 +15,9 @@ class CreateQuestions extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_lesson')->unsigned();
+            $table->bigInteger('id_lesson')->unsigned();
             $table->foreign('id_lesson')->references('id')->on('lessons');
-            $table->string('type',2)->default('qz');
+            $table->string('type', 2)->default('qz');
             $table->text('question');
             $table->text('model')->nullable();
             $table->tinyInteger('point');

@@ -17,7 +17,7 @@ class CreateFile extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
-            $table->integer('id_lesson')->unsigned();
+            $table->bigInteger('id_lesson')->unsigned();
             $table->foreign('id_lesson')->references('id')->on('lessons')->cascadeOnDelete();
             $table->timestamps();
         });

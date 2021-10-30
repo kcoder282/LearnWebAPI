@@ -14,10 +14,10 @@ class CreateRegisCourses extends Migration
     public function up()
     {
         Schema::create('regis_courses', function (Blueprint $table) {
-            $table->integer('id_user')->unsigned();
+            $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
 
-            $table->integer('id_course')->unsigned();
+            $table->unsignedBigInteger('id_course');
             $table->foreign('id_course')->references('id')->on('courses')->cascadeOnDelete();
             
             $table->tinyInteger("evaluate")->nullable();

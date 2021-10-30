@@ -15,7 +15,7 @@ class CreateBlogs extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_user')->unsigned();
+            $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
             $table->text('content');
             $table->timestamps();

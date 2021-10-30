@@ -15,9 +15,9 @@ class CreateAnswers extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_user')->unsigned();
+            $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
-            $table->integer('id_question')->unsigned();
+            $table->bigInteger('id_question')->unsigned();
             $table->foreign('id_question')->references('id')->on('questions')->cascadeOnDelete();
             $table->boolean('check')->default(false);
             $table->string('answer');

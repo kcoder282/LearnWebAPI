@@ -16,12 +16,12 @@ class CreateLessons extends Migration
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('id_chapter')->unsigned();
+            $table->bigInteger('id_chapter')->unsigned();
             $table->foreign('id_chapter')->references('id')->on('chapters')->cascadeOnDelete();
 
-            $table->integer('id_lesson')->unsigned()->nullable();
+            $table->bigInteger('id_lesson')->unsigned()->nullable();
             $table->foreign('id_lesson')->references('id')->on('lessons')->cascadeOnDelete();
-            
+
             $table->mediumText('name');
             $table->string('video')->nullable();
             $table->text('content');

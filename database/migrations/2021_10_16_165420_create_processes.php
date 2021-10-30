@@ -14,13 +14,13 @@ class CreateProcesses extends Migration
     public function up()
     {
         Schema::create('processes', function (Blueprint $table) {
-            $table->integer('id_user')->unsigned();
+            $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
-            $table->integer('id_lesson')->unsigned();
+            $table->bigInteger('id_lesson')->unsigned();
             $table->foreign('id_lesson')->references('id')->on('lessons')->cascadeOnDelete();
             $table->boolean('check')->default(false);
-            $table->integer('time')->default(0);    
-            $table->primary(['id_user','id_lesson']);
+            $table->integer('time')->default(0);
+            $table->primary(['id_user', 'id_lesson']);
             $table->timestamps();
         });
     }

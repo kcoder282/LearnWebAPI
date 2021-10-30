@@ -15,7 +15,7 @@ class CreateAQuizs extends Migration
     {
         Schema::create('a_quizs', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_question')->unsigned();
+            $table->bigInteger('id_question')->unsigned();
             $table->foreign('id_question')->references('id')
                 ->on('questions')
                 ->cascadeOnDelete();

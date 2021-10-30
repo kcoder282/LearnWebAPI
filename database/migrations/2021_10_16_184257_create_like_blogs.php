@@ -15,11 +15,11 @@ class CreateLikeBlogs extends Migration
     {
         Schema::create('like_blogs', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_user')->unsigned();
+            $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
-            $table->integer('id_blog')->unsigned()->nullable();
+            $table->bigInteger('id_blog')->unsigned()->nullable();
             $table->foreign('id_blog')->references('id')->on('blogs')->cascadeOnDelete();
-            $table->integer('id_cmt')->unsigned()->nullable();
+            $table->bigInteger('id_cmt')->unsigned()->nullable();
             $table->foreign('id_cmt')->references('id')->on('cmt_blogs')->cascadeOnDelete();
             $table->timestamps();
         });

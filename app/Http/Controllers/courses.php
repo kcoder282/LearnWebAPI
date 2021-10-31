@@ -25,7 +25,16 @@ class courses extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $item = new ModelsCourses();
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->key = $request->key;
+        $item->color = $request->color;
+        $item->price = $request->price;
+        if ($item->save())
+            return ModelsCourses::list();
+        else
+            return false;
     }
 
     /**
@@ -36,7 +45,7 @@ class courses extends Controller
      */
     public function show($id)
     {
-        //
+        return ModelsCourses::item($id);
     }
 
     /**
@@ -48,7 +57,17 @@ class courses extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = ModelsCourses::find($id);
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->key = $request->key;
+        $item->color = $request->color;
+        $item->price = $request->price;
+        $item->status = $request->status;
+        if ($item->save())
+            return ModelsCourses::list();
+        else
+            return false;
     }
 
     /**
@@ -59,6 +78,9 @@ class courses extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (ModelsCourses::find($id)->delete())
+            return ModelsCourses::list();
+        else
+            return false;
     }
 }

@@ -16,10 +16,8 @@ class CreateRegisCourses extends Migration
         Schema::create('regis_courses', function (Blueprint $table) {
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
-
             $table->unsignedBigInteger('id_course');
-            $table->foreign('id_course')->references('id')->on('courses')->cascadeOnDelete();
-            
+            $table->foreign('id_course')->references('id')->on('courses')->cascadeOnDelete();           
             $table->tinyInteger("evaluate")->nullable();
             $table->integer("sumpoint")->default(0);
             $table->primary(['id_user', 'id_course']);

@@ -23,11 +23,9 @@ class courses extends Model
             $data['price'] = $item->price ?? 0;
             $data['status'] = $item->status;
             $data['color'] = $item->color;
-            $data['member'] = regis_courses::where('id_course', $item->id)
-                ->count('id_course');
-
+            $data['chapter'] = chapters::where('id_course',$item->id)->count('id');
+            $data['member'] = regis_courses::where('id_course', $item->id)->count('id_course');
             $list = regis_courses::select(['evaluate'])->where([['id_course', '=', $item->id], ['evaluate', '<>', null]])->get();
-
             $agv_eval = 0;
             $check = false;
             foreach ($list as $e) {
@@ -40,6 +38,29 @@ class courses extends Model
             $result[] = (object) $data;
         }
         return $result ?? [];
+    }
+    public static function item($id){
+        $item = self::find($id);
+        $data['id'] = $item->id;
+        $data['name'] = $item->name;
+        $data['description'] = $item->description;
+        $data['key'] = $item->key;
+        $data['price'] = $item->price ?? 0;
+        $data['status'] = $item->status;
+        $data['color'] = $item->color;
+        $data['chapter'] = chapters::where('id_course', $item->id)->count('id');
+        $data['member'] = regis_courses::where('id_course', $item->id)->count('id_course');
+        $list = regis_courses::select(['evaluate'])->where([['id_course', '=', $item->id], ['evaluate', '<>', null]])->get();
+        $agv_eval = 0;
+        $check = false;
+        foreach ($list as $e) {
+            $agv_eval += $e->evaluate;
+            $check = true;
+        }
+        if ($agv_eval !== 0) $agv_eval = round($agv_eval / (count($list)), 2);
+        $data['evaluate'] = ($check) ? $agv_eval : null;
+        $data['chapterList'] = $item->chapters();
+        return $data;
     }
     public function member()
     { // get list member of course

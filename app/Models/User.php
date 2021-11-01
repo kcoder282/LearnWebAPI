@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -38,4 +41,40 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function user()
+    {
+        if (!empty($_REQUEST['key']))
+            $user = self::where('remember_token', $_REQUEST['key'])->first();
+        else {
+            http_response_code('400');
+            return ['id' => 0, 'mess' => 'request login'];
+        }
+        if ($user) {
+            $time = Carbon::now()->diffInSeconds(new Carbon($user->updated_at));
+            if ($time > env('TIME_REMEMBER')) {
+                $user->remember_token = NULL;
+                $user->save();
+                http_response_code('400');
+                return ['id' => 0, 'mess' => 'time out'];
+            } else {
+                $user->updated_at = Carbon::now();
+                $user->save();
+                return [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                    'avata' => $user->avata,
+                    'name' => $user->name,
+                    'birth' => $user->birth,
+                    'email' => $user->email,
+                    'sex' => $user->sex,
+                    'type' => $user->type,
+                    'timecreate' => $user->updated_at
+                ];
+            }
+        } else {
+            http_response_code('400');
+            return ['id' => 0, 'mess' => 'Auth out'];
+        }
+    }
 }

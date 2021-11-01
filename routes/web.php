@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\users;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 
 });
+
+Route::post('/auth', [users::class, 'store']);

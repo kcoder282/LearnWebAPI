@@ -16,7 +16,7 @@ class regis extends Seeder
     {
         $data=[
             [
-                'id_user'=>2,
+                'id_user'=>1,
                 'id_course'=>1,
                 'evaluate'=>5
             ],

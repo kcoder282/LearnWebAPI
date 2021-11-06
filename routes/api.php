@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\courses;
+use App\Http\Controllers\lessons;
 use App\Http\Controllers\users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,9 @@ Route::delete('/auth', [users::class, 'logout']);
 
 
 Route::apiResource('/courses', courses::class);
+Route::get('/courses/regis/{id}', [courses::class, 'regis']);
+Route::apiResource('/lessons', lessons::class);
+
+Route::post('/lessons/change',[lessons::class,'change']);
+
+Route::get('/auth', [users::class, 'user']);

@@ -23,7 +23,7 @@ class courses extends Model
             $data['price'] = $item->price ?? 0;
             $data['status'] = $item->status;
             $data['color'] = $item->color;
-            $data['chapter'] = chapters::where('id_course',$item->id)->count('id');
+            $data['lessons'] = lessons::where('id_course',$item->id)->count('id');
             $data['member'] = regis_courses::where('id_course', $item->id)->count('id_course');
             $list = regis_courses::select(['evaluate'])->where([['id_course', '=', $item->id], ['evaluate', '<>', null]])->get();
             $agv_eval = 0;
@@ -34,10 +34,10 @@ class courses extends Model
             }
             if ($agv_eval !== 0) $agv_eval = round($agv_eval / (count($list)), 2);
             $data['evaluate'] = ($check) ? $agv_eval : null;
-
+            $data['regis'] = regis_courses::where('id_user',User::user()['id'])->where('id_course', $item->id)->count()===1;
             $result[] = (object) $data;
         }
-        return $result ?? [];
+        return $result;
     }
     public static function item($id){
         $item = self::find($id);
@@ -48,7 +48,7 @@ class courses extends Model
         $data['price'] = $item->price ?? 0;
         $data['status'] = $item->status;
         $data['color'] = $item->color;
-        $data['chapter'] = chapters::where('id_course', $item->id)->count('id');
+        $data['lessons'] = lessons::where('id_course', $item->id)->count('id');
         $data['member'] = regis_courses::where('id_course', $item->id)->count('id_course');
         $list = regis_courses::select(['evaluate'])->where([['id_course', '=', $item->id], ['evaluate', '<>', null]])->get();
         $agv_eval = 0;
@@ -60,7 +60,6 @@ class courses extends Model
         if ($agv_eval !== 0) $agv_eval = round($agv_eval / (count($list)), 2);
         $data['evaluate'] = ($check) ? $agv_eval : null;
         $data['regis'] = regis_courses::where([['id_course','=',$item->id], ['id_user', '=', User::user()['id']]])->count() === 1;
-        $data['chapterList'] = $item->chapters();
         return $data;
     }
     public function member()
@@ -90,17 +89,6 @@ class courses extends Model
             $data['sex'] = $user->sex;
             $data['type'] = $user->type;
             $data['evaluate'] = $item->evaluate;
-            $result[] = (object) $data;
-        }
-        return $result ?? [];
-    }
-    public function chapters()
-    { // get list chapters
-        $list = chapters::where('id_course', $this->id)->orderBy('name')->get();
-        foreach ($list as $item) {
-            $data['id'] = $item->id;
-            $data['name'] = $item->name;
-            $data['number_lesson'] = lessons::where('id_chapter', $item->id)->count('id');
             $result[] = (object) $data;
         }
         return $result ?? [];

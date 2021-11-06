@@ -47,7 +47,6 @@ class User extends Authenticatable
         if (!empty($_REQUEST['key']))
             $user = self::where('remember_token', $_REQUEST['key'])->first();
         else {
-            http_response_code('400');
             return ['id' => 0, 'mess' => 'request login'];
         }
         if ($user) {
@@ -55,7 +54,6 @@ class User extends Authenticatable
             if ($time > env('TIME_REMEMBER')) {
                 $user->remember_token = NULL;
                 $user->save();
-                http_response_code('400');
                 return ['id' => 0, 'mess' => 'time out'];
             } else {
                 $user->updated_at = Carbon::now();
@@ -73,8 +71,8 @@ class User extends Authenticatable
                 ];
             }
         } else {
-            http_response_code('400');
             return ['id' => 0, 'mess' => 'Auth out'];
         }
+        return ['id'=>0];
     }
 }

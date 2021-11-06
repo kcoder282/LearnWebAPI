@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\courses as ModelsCourses;
+use App\Models\regis_courses;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class courses extends Controller
@@ -82,5 +84,20 @@ class courses extends Controller
             return ModelsCourses::list();
         else
             return false;
+    }
+
+    public function regis($id){
+        $user = User::user();
+        $course = ModelsCourses::find($id);
+
+        if($user['id']!==0 && $course)
+        {
+            $regis = new regis_courses();
+            $regis->id_user = $user['id'];
+            $regis->id_course = $course->id;
+            $regis->save();
+        }
+
+        return ModelsCourses::item($course->id);
     }
 }

@@ -15,13 +15,9 @@ class CreateLessons extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-
-            $table->bigInteger('id_chapter')->unsigned();
-            $table->foreign('id_chapter')->references('id')->on('chapters')->cascadeOnDelete();
-
-            $table->bigInteger('id_lesson')->unsigned()->nullable();
-            $table->foreign('id_lesson')->references('id')->on('lessons')->cascadeOnDelete();
-
+            $table->bigInteger('id_course')->unsigned();
+            $table->foreign('id_course')->references('id')->on('courses')->cascadeOnDelete();
+            $table->integer('index');
             $table->mediumText('name');
             $table->string('video')->nullable();
             $table->text('content');

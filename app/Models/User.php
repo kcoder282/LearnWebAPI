@@ -50,14 +50,14 @@ class User extends Authenticatable
             return ['id' => 0, 'mess' => 'request login'];
         }
         if ($user) {
-            $time = Carbon::now()->diffInSeconds(new Carbon($user->updated_at));
-            if ($time > env('TIME_REMEMBER')) {
-                $user->remember_token = NULL;
-                $user->save();
-                return ['id' => 0, 'mess' => 'time out'];
-            } else {
-                $user->updated_at = Carbon::now();
-                $user->save();
+            //$time = Carbon::now()->diffInSeconds(new Carbon($user->updated_at));
+            // if ($time > env('TIME_REMEMBER')) {
+            //     $user->remember_token = NULL;
+            //     $user->save();
+            //     return ['id' => 0, 'mess' => 'time out'];
+            // } else {
+                // $user->updated_at = Carbon::now();
+                // $user->save();
                 return [
                     'id' => $user->id,
                     'username' => $user->username,
@@ -69,10 +69,10 @@ class User extends Authenticatable
                     'type' => $user->type,
                     'timecreate' => $user->updated_at
                 ];
-            }
-        } else {
-            return ['id' => 0, 'mess' => 'Auth out'];
+        //     }
+        // } else {
+        //     return ['id' => 0, 'mess' => 'Auth out'];
         }
-        return ['id'=>0];
+        // return ['id'=>0];
     }
 }

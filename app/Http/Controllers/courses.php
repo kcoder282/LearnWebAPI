@@ -33,10 +33,9 @@ class courses extends Controller
         $item->key = $request->key;
         $item->color = $request->color;
         $item->price = $request->price;
-        if ($item->save())
-            return ModelsCourses::list();
-        else
-            return false;
+        if (User::user()["type"]==1)
+        $item->save();
+        return ModelsCourses::list();
     }
 
     /**
@@ -66,10 +65,9 @@ class courses extends Controller
         $item->color = $request->color;
         $item->price = $request->price;
         $item->status = $request->status;
-        if ($item->save())
-            return ModelsCourses::list();
-        else
-            return false;
+        if (User::user()["type"] == 1)
+        $item->save();
+        return ModelsCourses::list();
     }
 
     /**
@@ -80,10 +78,9 @@ class courses extends Controller
      */
     public function destroy($id)
     {
-        if (ModelsCourses::find($id)->delete())
-            return ModelsCourses::list();
-        else
-            return false;
+        if (User::user()["type"] == 1)
+        ModelsCourses::find($id)->delete();
+        return ModelsCourses::list();
     }
 
     public function regis($id){

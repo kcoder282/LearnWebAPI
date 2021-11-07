@@ -22,4 +22,4 @@ Route::apiResource('/lessons', lessons::class);
 
 Route::post('/lessons/change',[lessons::class,'change']);
 
-Route::get('/', [main::class, 'main']);
+Route::get('/menu', [main::class, 'menu']);

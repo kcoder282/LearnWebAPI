@@ -53,8 +53,9 @@ class lessons extends Controller
         $item->content = 'Không có dữ liệu';
         $item->index = ModelsLessons::where('id_course',$request->id_course)->count();
         $u = User::user();
-        if($u['id']!==0) if($u['type']===1) $item->save();
-        return courses::item($request->id_course);
+        if($u['id']!==0) if($u['type']===1) 
+        $item->save();
+        return ModelsLessons::list($_REQUEST['id_course']);
     }
 
     /**

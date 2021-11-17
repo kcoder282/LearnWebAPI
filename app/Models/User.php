@@ -47,14 +47,14 @@ class User extends Authenticatable
         if (!empty($_REQUEST['key']))
             $user = self::where('remember_token', $_REQUEST['key'])->first();
         else {
-            return ['id' => 0, 'mess' => 'request login'];
+            return ['id' => 0, 'type' => 'request login'];
         }
         if ($user) {
             //$time = Carbon::now()->diffInSeconds(new Carbon($user->updated_at));
             // if ($time > env('TIME_REMEMBER')) {
             //     $user->remember_token = NULL;
             //     $user->save();
-            //     return ['id' => 0, 'mess' => 'time out'];
+            //     return ['id' => 0, 'type' => 'time out'];
             // } else {
                 // $user->updated_at = Carbon::now();
                 // $user->save();
@@ -71,8 +71,8 @@ class User extends Authenticatable
                 ];
         //     }
         // } else {
-        //     return ['id' => 0, 'mess' => 'Auth out'];
+        //     return ['id' => 0, 'type' => 'Auth out'];
         }
-        // return ['id'=>0];
+        return ['id'=>0, 'type' => 'request login'];
     }
 }

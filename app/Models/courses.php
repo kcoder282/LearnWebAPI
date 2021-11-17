@@ -28,13 +28,17 @@ class courses extends Model
             $list = regis_courses::select(['evaluate'])->where([['id_course', '=', $item->id], ['evaluate', '<>', null]])->get();
             $agv_eval = 0;
             $check = false;
+            $user = User::user()['id'];
             foreach ($list as $e) {
                 $agv_eval += $e->evaluate;
                 $check = true;
             }
             if ($agv_eval !== 0) $agv_eval = round($agv_eval / (count($list)), 2);
             $data['evaluate'] = ($check) ? $agv_eval : null;
-            $data['regis'] = regis_courses::where('id_user',User::user()['id'])->where('id_course', $item->id)->count()===1;
+            $data['mEvaluate'] = count($list);
+            $ev = regis_courses::where('id_user', $user)->where('id_course', $item->id)->first();
+            $data['regis'] = $ev !== null;
+            $data['myevaluate'] = $ev===null?0:$ev->evaluate;
             $result[] = (object) $data;
         }
         return $result;
@@ -53,13 +57,18 @@ class courses extends Model
         $list = regis_courses::select(['evaluate'])->where([['id_course', '=', $item->id], ['evaluate', '<>', null]])->get();
         $agv_eval = 0;
         $check = false;
+        $user = User::user()['id'];
         foreach ($list as $e) {
             $agv_eval += $e->evaluate;
             $check = true;
         }
         if ($agv_eval !== 0) $agv_eval = round($agv_eval / (count($list)), 2);
         $data['evaluate'] = ($check) ? $agv_eval : null;
-        $data['regis'] = regis_courses::where([['id_course','=',$item->id], ['id_user', '=', User::user()['id']]])->count() === 1;
+        $data['mEvaluate'] = count($list);
+        $ev = regis_courses::where('id_user', $user)->where('id_course', $item->id)->first();
+        $data['regis'] = $ev !== null;
+        $data['myevaluate'] = $ev === null ? 0 : $ev->evaluate;
+        $result[] = (object) $data;  
         return $data;
     }
     public function member()

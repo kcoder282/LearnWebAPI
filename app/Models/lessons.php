@@ -51,8 +51,6 @@ class lessons extends Model
         foreach ($list as $item) {
             $data['id'] = $item->id;
             $data['name'] = $item->name;
-            $data['like'] = like_lessons::where('id_lesson', $item->id)->count();
-            $data['cmt'] = cmt_lessons::where('id_lesson', $item->id)->count();
             $data['check'] = processes::where('id_lesson', $item->id)->where('id_user', User::user()['id'])->count() === 1;
             $result[] = $data;
         }

@@ -2,14 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\courses;
+use App\Models\cmt_lessons;
 use App\Models\lessons as ModelsLessons;
+use App\Models\like_lessons;
+use App\Models\regis_courses;
 use App\Models\User;
 use Database\Seeders\lesson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class lessons extends Controller
 {
+    public function like(Request $request){
+        $user = User::user();
+        if($user['id']!==0)
+        {
+            $like = new like_lessons();
+            $like->id_user = $user['id'];
+            $like->id_lesson = $request->id;
+            $like->save();
+            return like_lessons::where('id_lesson', $request->id)->count();
+        } else return ["messen" => "require"];
+    }
+    public function unlike(Request $request)
+    {
+        $user = User::user();
+        if ($user['id'] !== 0) {
+            $like = like_lessons::where('id_user',$user['id'])
+            ->where('id_lesson',$request->id)->first();
+            $like->delete();
+            return like_lessons::where('id_lesson', $request->id)->count();
+        }else return ["messen"=>"require"];
+    }
     public function change(Request $request){
         if(User::user()['type']===1)
         {
@@ -49,13 +73,18 @@ class lessons extends Controller
     {
         $item = new ModelsLessons();
         $item->name = $request->name;
+        $item->video = $request->video;
         $item->id_course = $request->id_course;
-        $item->content = 'Không có dữ liệu';
-        $item->index = ModelsLessons::where('id_course',$request->id_course)->count();
-        $u = User::user();
-        if($u['id']!==0) if($u['type']===1) 
-        $item->save();
-        return ModelsLessons::list($_REQUEST['id_course']);
+        $item->index = ModelsLessons::where('id_course', $request->id_course)->count()??1;
+        if (User::user()['type'] === 1)
+         if($item->save()){
+            $name = "lesson_" . ($item->id) . ".html";
+            Storage::put("lessons/$name", $request->content);
+            $item->content = $name;
+            $item->save();
+            $item->content = Storage::get("lessons/$name");
+            return $item;
+        }
     }
 
     /**
@@ -66,7 +95,20 @@ class lessons extends Controller
      */
     public function show($id)
     {
-        //
+        $lesson = ModelsLessons::find($id);
+        $id_user = User::user()['id'];
+        $regis = regis_courses::where('id_user', $id_user)
+        ->where('id_course', $lesson->id_course)->count()!==0;
+        return [
+            'id' => $lesson->id,
+            'id_course' => $lesson->id_course,
+            'name'=>$lesson->name,
+            'video'=>$regis?$lesson->video??'':'',
+            'content' => $regis?Storage::get('lessons/' . $lesson->content):'',
+            'like'=>like_lessons::where('id_lesson', $id)->count(),
+            'mylike'=> like_lessons::where('id_lesson', $id)->where('id_user', $id_user)->count() === 1,
+            'cmt'=> cmt_lessons::where('id_lesson', $id)->count()
+        ];
     }
 
     /**
@@ -84,15 +126,15 @@ class lessons extends Controller
         if(isset($request->video))
             $lesson->video = $request->video;
         if(isset($request->content))
-            $lesson->content = $request->content;
-        if(isset($request->index))
-            $lesson->index = $request->index;
+        {
+            Storage::delete('lessons/' . $lesson->content);
+            $name = "lesson_$id.html";
+            Storage::put("lessons/$name", $request->content);
+            $lesson->content = $name;
+        }
         if(User::user()['type']===1)
-            if($lesson->save()) 
-                return $lesson;
-        else
-            return ['result' => false];
-        return $request;
+            if($lesson->save())
+        return $this->show($id);
     }
 
     /**
@@ -103,6 +145,11 @@ class lessons extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lesson = ModelsLessons::find($id);
+        if(User::user()['type']===1 && $lesson){
+            Storage::delete('lessons/'.$lesson->content);
+            $lesson->delete();
+        }
+        return ModelsLessons::list($lesson->id_course);
     }
 }

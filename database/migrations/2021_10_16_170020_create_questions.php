@@ -16,7 +16,7 @@ class CreateQuestions extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_lesson')->unsigned();
-            $table->foreign('id_lesson')->references('id')->on('lessons');
+            $table->foreign('id_lesson')->references('id')->on('lessons')->cascadeOnDelete();
             $table->string('type', 2)->default('qz');
             $table->text('question');
             $table->text('model')->nullable();

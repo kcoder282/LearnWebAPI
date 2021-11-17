@@ -20,7 +20,7 @@ class CreateLessons extends Migration
             $table->integer('index');
             $table->mediumText('name');
             $table->string('video')->nullable();
-            $table->text('content');
+            $table->string('content')->nullable();
             $table->timestamps();
         });
     }

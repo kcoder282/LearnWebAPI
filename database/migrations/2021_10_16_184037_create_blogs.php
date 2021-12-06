@@ -17,7 +17,8 @@ class CreateBlogs extends Migration
             $table->id();
             $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
-            $table->text('content');
+            $table->string('content');
+            $table->integer('view');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\cmt_lessons;
 use App\Models\lessons as ModelsLessons;
 use App\Models\like_lessons;
+use App\Models\processes;
 use App\Models\regis_courses;
 use App\Models\User;
 use Database\Seeders\lesson;
@@ -49,7 +50,6 @@ class lessons extends Controller
             }
             return ModelsLessons::list($l1->id_course);
         }
-        http_response_code('500');
     }
     /**
      * Display a listing of the resource.
@@ -106,9 +106,23 @@ class lessons extends Controller
             'video'=>$regis?$lesson->video??'':'',
             'content' => $regis?Storage::get('lessons/' . $lesson->content):'',
             'like'=>like_lessons::where('id_lesson', $id)->count(),
-            'mylike'=> like_lessons::where('id_lesson', $id)->where('id_user', $id_user)->count() === 1,
-            'cmt'=> cmt_lessons::where('id_lesson', $id)->count()
+            'mylike'=> like_lessons::where('id_lesson', $id)->where('id_user', $id_user)->count()>0,
+            'cmt'=> cmt_lessons::where('id_lesson', $id)->count(),
+            'regis'=>$regis
         ];
+    }
+
+    public function checkpro($id)
+    {
+        $id_user = User::user()['id'];
+        if(processes::where('id_user',$id_user)->where('id_lesson',$id)->first()===null&&$id_user!==0)
+        {
+            $pro = new processes();
+            $pro->id_user = $id_user;
+            $pro->id_lesson = $id;
+            $pro->save();
+        } 
+        return ModelsLessons::list($_REQUEST['id_course']);
     }
 
     /**

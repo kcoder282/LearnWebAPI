@@ -19,7 +19,7 @@ class CreateTopics extends Migration
             $table->foreign('id_course')->references('id')->on('courses')->cascadeOnDelete();
             $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
-            $table->text('content');
+            $table->string('content');
             $table->timestamps();
         });
     }

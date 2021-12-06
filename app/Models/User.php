@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Date;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -74,5 +73,14 @@ class User extends Authenticatable
         //     return ['id' => 0, 'type' => 'Auth out'];
         }
         return ['id'=>0, 'type' => 'request login'];
+    }
+    public static function item($id)
+    {
+        $user = self::find($id);
+        return [
+            'id'=>$user->id,
+            'name'=>$user->name,
+            'avata'=>$user->avata
+        ];
     }
 }

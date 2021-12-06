@@ -19,7 +19,7 @@ class CreateAQuizs extends Migration
             $table->foreign('id_question')->references('id')
                 ->on('questions')
                 ->cascadeOnDelete();
-            $table->text('plan');
+            $table->string('plan');
             $table->boolean('res')->default(false);
             $table->timestamps();
         });

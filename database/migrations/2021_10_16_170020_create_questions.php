@@ -18,9 +18,7 @@ class CreateQuestions extends Migration
             $table->bigInteger('id_lesson')->unsigned();
             $table->foreign('id_lesson')->references('id')->on('lessons')->cascadeOnDelete();
             $table->string('type', 2)->default('qz');
-            $table->text('question');
-            $table->text('model')->nullable();
-            $table->tinyInteger('point');
+            $table->string('question');
             $table->timestamps();
         });
     }

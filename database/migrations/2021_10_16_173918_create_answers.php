@@ -19,8 +19,7 @@ class CreateAnswers extends Migration
             $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
             $table->bigInteger('id_question')->unsigned();
             $table->foreign('id_question')->references('id')->on('questions')->cascadeOnDelete();
-            $table->boolean('check')->default(false);
-            $table->string('answer');
+            $table->tinyText('answer');
             $table->timestamps();
         });
     }

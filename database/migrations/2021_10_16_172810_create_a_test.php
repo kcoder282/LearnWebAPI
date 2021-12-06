@@ -13,7 +13,7 @@ class CreateATest extends Migration
      */
     public function up()
     {
-        Schema::create('a_test', function (Blueprint $table) {
+        Schema::create('a_tests', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_question')->unsigned();
             $table->foreign('id_question')->references('id')->on('questions')->cascadeOnDelete();
@@ -30,6 +30,6 @@ class CreateATest extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a_test');
+        Schema::dropIfExists('a_tests');
     }
 }

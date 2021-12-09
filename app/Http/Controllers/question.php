@@ -45,8 +45,6 @@ class question extends Controller
 
             if($request->type==='cd')
             {
-
-                
                 $res = [];
                 if (answer::compile($request->code) === null) {
                     try {

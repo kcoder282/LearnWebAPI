@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class users extends Controller
 {
@@ -47,5 +48,31 @@ class users extends Controller
             }
         }
         return 1;
+    }
+    public static function change(Request $request)
+    {
+        $user = User::find($request->id);
+        if($user->id===$request->id)
+        {
+            if($user->avata!==null)
+            {
+                Storage::delete('public/'.$user->avata);
+            }
+            $img =  explode(",",$request->avata);
+            preg_match('/image\/(\w)+/', $img[0], $output_array);
+            $name = "avata_image" . $request->id . str_replace('image/', '.', $output_array[0]);
+            Storage::put("public/$name", base64_decode($img[1]));
+            $user->avata = $name;
+            $user->email = $request->email;
+            if($request->password!=="")
+                $user->password = bcrypt($request->password);
+            $user->name = $request->name;
+            $user->birth = $request->birth;
+            $user->sex = $request->sex;
+
+            $user->save();
+        }
+
+        return $user;
     }
 }

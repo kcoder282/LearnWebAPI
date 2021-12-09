@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/auth', [users::class, 'user']);
 Route::post('/auth', [users::class, 'login']);
 Route::delete('/auth', [users::class, 'logout']);
+Route::put('/auth', [users::class, 'change']);
 
 
 Route::apiResource('/courses', courses::class);
@@ -29,9 +30,6 @@ Route::apiResource('/questions', question::class);
 Route::apiResource('/blogs', blogs::class);
 
 Route::post('/code',[question::class, 'test']);
-Route::get('/test', function(){
-    return a_tests::all();
-});
 
 Route::post('/lessons/change',[lessons::class,'change']);
 Route::get('/lessons/proccess/{id}', [lessons::class, 'checkpro']);
@@ -45,3 +43,4 @@ Route::post('/topics/unlike', [topics::class, 'unlike']);
 Route::post('/blogs/like', [blogs::class, 'like']);
 Route::post('/blogs/unlike', [blogs::class, 'unlike']);
 Route::get('/blogs/view/{id}',[blogs::class, 'view']);
+Route::get('/blogs_search', [blogs::class, 'search']);

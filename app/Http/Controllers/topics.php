@@ -41,7 +41,11 @@ class topics extends Controller
      */
     public function index()
     {
+        if(isset($_REQUEST['course']))
+        $topics = ModelsTopics::orderBy('id', 'DESC')->where('id_course', $_REQUEST['course'])->paginate(10);
+        else
         $topics = ModelsTopics::orderBy('id','DESC')->paginate(10);
+
         $data = [];
         foreach ($topics as $value) {
             $course = courses::find($value->id_course);

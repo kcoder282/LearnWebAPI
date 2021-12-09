@@ -12,6 +12,34 @@ use Illuminate\Support\Str;
 
 class blogs extends Controller
 {
+    public function search()
+    {
+        $blog = ModelsBlogs::all();
+        $list = [];
+        foreach($blog as $value)
+        {
+            $user = User::item($value->id_user)['name'];
+            $content = json_decode(Storage::get($value->content));
+            if(str_contains(strtolower($content->name), $_REQUEST['search']))
+            {
+                $list[]=[
+                    'id'=>$value->id,
+                    'name'=>$content->name,
+                    'user_name'=>$user
+                ];
+            }else
+            if(str_contains(strtolower($user), $_REQUEST['search']))
+            {
+                $list[] = [
+                    'id' => $value->id,
+                    'name' => $content->name,
+                    'user_name' => $user
+                ];
+            }
+        }
+        return $list;
+    }
+    
     public function like(Request $request)
     {
         $user = User::user();
@@ -173,4 +201,5 @@ class blogs extends Controller
         $blog->save();
         return $blog->view;
     }
+    
 }

@@ -13,12 +13,11 @@ class CreateFile extends Migration
      */
     public function up()
     {
-        Schema::create('file', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('url');
-            $table->bigInteger('id_lesson')->unsigned()->nullable();
-            $table->foreign('id_lesson')->references('id')->on('lessons')->cascadeOnDelete();
+            $table->bigInteger('id_user')->unsigned()->nullable();
+            $table->foreign('id_user')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateFile extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file');
+        Schema::dropIfExists('files');
     }
 }

@@ -9,7 +9,7 @@ use App\Http\Controllers\topics;
 use App\Http\Controllers\users;
 use App\Http\Controllers\blogs;
 use App\Http\Controllers\Home;
-use App\Models\a_tests;
+use App\Http\Controllers\files_code;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +34,8 @@ Route::apiResource('/lessons', lessons::class);
 Route::apiResource('/questions', question::class);
 Route::apiResource('/blogs', blogs::class);
 Route::apiResource('/home', Home::class);
+Route::apiResource('/files', files_code::class);
+Route::post('/sendgmail', [Home::class, 'sendGmail']);
 
 Route::post('/code',[question::class, 'test']);
 

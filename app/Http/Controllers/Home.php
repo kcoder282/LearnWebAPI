@@ -8,6 +8,7 @@ use App\Models\lessons;
 use App\Models\topics;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class Home extends Controller
@@ -25,11 +26,11 @@ class Home extends Controller
             $content = json_decode(Storage::get('topics/' . $value->content));
             $course = courses::where('id', $value->id_course)->get(['color', 'key'])->first();
             $data[] = [
-                'id'=>$value->id,
-                'color'=> count($content->img) === 0,
-                'key'=> $course->key,
-                'img'=> count($content->img)===0? $course->color:$content->img[0],
-                'content'=> $content->content,
+                'id' => $value->id,
+                'color' => count($content->img) === 0,
+                'key' => $course->key,
+                'img' => count($content->img) === 0 ? $course->color : $content->img[0],
+                'content' => $content->content,
             ];
         }
         $blog = blogs::orderBy('id', 'DESC')->limit(5)->get();
@@ -37,22 +38,22 @@ class Home extends Controller
         foreach ($blog as $value) {
             $tmp = json_decode(Storage::get($value->content));
             $blogs[] = [
-                'id'=>$value->id,
-                'name'=>$tmp->name,
-                'img'=>$tmp->img,
-                'description'=>$tmp->description
+                'id' => $value->id,
+                'name' => $tmp->name,
+                'img' => $tmp->img,
+                'description' => $tmp->description
             ];
         }
         return [
-            'content'=> json_decode(Storage::get('home.json')),
-            'courses'=> courses::orderBy('id','DESC')->limit(5)->get(),
-            'blogs'=> $blogs,
-            'topics'=> $data,
-            'info'=>[
-                'user'=>User::count(),
-                'courses'=>courses::count(),
-                'lessons'=>lessons::count(),
-                'blogs'=>blogs::count()
+            'content' => json_decode(Storage::get('home.json')),
+            'courses' => courses::orderBy('id', 'DESC')->limit(5)->get(),
+            'blogs' => $blogs,
+            'topics' => $data,
+            'info' => [
+                'user' => User::count(),
+                'courses' => courses::count(),
+                'lessons' => lessons::count(),
+                'blogs' => blogs::count()
             ]
         ];
     }
@@ -66,14 +67,14 @@ class Home extends Controller
     public function store(Request $request)
     {
         $data =
-        [
-            "name" => $request->name??"",
-            "content" => $request->content??"",
-            "content1"=>$request->content1??"",
-            "content2"=>$request->content2??"",
-            "email" => $request->email??"",
-            "sdt" => $request->sdt??"",
-        ];
+            [
+                "name" => $request->name ?? "",
+                "content" => $request->content ?? "",
+                "content1" => $request->content1 ?? "",
+                "content2" => $request->content2 ?? "",
+                "email" => $request->email ?? "",
+                "sdt" => $request->sdt ?? "",
+            ];
         return Storage::put("home.json", json_encode($data));
     }
 
@@ -109,5 +110,15 @@ class Home extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function sendGmail(Request $request)
+    {
+        Mail::send('email', ['name'=>$request->name,'email'=>$request->email,'content' => $request->content], 
+        function ($mess) {
+            $mess->from("thanhkhan.dongbo.saoluu@gmail.com");
+            $mess->to("thanhkhan.dongbo.saoluu@gmail.com");
+            $mess->subject('Email hỏi đáp');
+        });
+        return 1;
     }
 }

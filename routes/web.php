@@ -1,7 +1,4 @@
 <?php
-
-use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/file', function () {
-
-    echo asset('storage/file.txt');
+Route::get('/', function () {
+    return view('welcome');
 });

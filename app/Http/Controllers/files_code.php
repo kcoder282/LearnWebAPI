@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\answer;
 use App\Models\files;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class files_code extends Controller
         {
             $tmp = json_decode(Storage::get($item->name));
             $data[] = [
-                'id'=>$tmp->id,
+                'id'=> $item->id,
                 'name'=>$tmp->name
             ];
         }
@@ -48,7 +49,7 @@ class files_code extends Controller
         $file->name = $name;
         $file->id_user = $id;
         $file->save();
-        return $file;
+        return $this->index();
     }
 
     /**
@@ -59,7 +60,8 @@ class files_code extends Controller
      */
     public function show($id)
     {
-        //
+        $file = files::find($id);
+        return json_decode(Storage::get($file->name));
     }
 
     /**
@@ -71,7 +73,28 @@ class files_code extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $file = files::find($id);
+        $code = json_decode(Storage::get($file->name));
+        if($request->name)
+        {
+            $code->name = $request->name;
+            Storage::put($file->name, json_encode($code));
+        }else{
+            $code->code = $request->code;
+            Storage::put($file->name, json_encode($code));
+            return $this->test($request);
+        }
+
+    }
+
+    public function test(Request $request)
+    {
+        $error = answer::compile($request->code);
+        if ($error === null) {
+            $output = answer::RunCode($request->input ?? '');
+            unlink('tmpcodec.exe');
+        }
+        return $error??$output;
     }
 
     /**
@@ -82,6 +105,9 @@ class files_code extends Controller
      */
     public function destroy($id)
     {
-        //
+        $file = files::find($id);
+        Storage::delete($file->name);
+        $file->delete();
+        return $this->index();
     }
 }

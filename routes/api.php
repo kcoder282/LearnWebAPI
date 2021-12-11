@@ -35,6 +35,7 @@ Route::apiResource('/questions', question::class);
 Route::apiResource('/blogs', blogs::class);
 Route::apiResource('/home', Home::class);
 Route::apiResource('/files', files_code::class);
+Route::post("/testCodeRun",[files_code::class,"test"]);
 Route::post('/sendgmail', [Home::class, 'sendGmail']);
 
 Route::post('/code',[question::class, 'test']);

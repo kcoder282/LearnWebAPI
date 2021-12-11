@@ -78,7 +78,7 @@ class courses extends Controller
     public function destroy($id)
     {
         if (User::user()["type"] == 1)
-        ModelsCourses::find($id)->delete();
+            ModelsCourses::find($id)->delete();
         return ModelsCourses::list();
     }
 }

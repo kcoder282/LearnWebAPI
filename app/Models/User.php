@@ -48,7 +48,7 @@ class User extends Authenticatable
         else {
             return ['id' => 0, 'type' => 'request login'];
         }
-        if ($user) {
+        if ($user!==null) {
             //$time = Carbon::now()->diffInSeconds(new Carbon($user->updated_at));
             // if ($time > env('TIME_REMEMBER')) {
             //     $user->remember_token = NULL;
@@ -77,10 +77,16 @@ class User extends Authenticatable
     public static function item($id)
     {
         $user = self::find($id);
+        if($user!==null)
         return [
             'id'=>$user->id,
             'name'=>$user->name,
             'avata'=>$user->avata
+        ];else
+        return [
+            'id'=>0,
+            'name'=>"",
+            'avata'=>null
         ];
     }
 }

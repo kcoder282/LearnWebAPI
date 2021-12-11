@@ -8,6 +8,7 @@ use App\Http\Controllers\regis;
 use App\Http\Controllers\topics;
 use App\Http\Controllers\users;
 use App\Http\Controllers\blogs;
+use App\Http\Controllers\Home;
 use App\Models\a_tests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/auth', [users::class, 'user']);
 Route::post('/auth', [users::class, 'login']);
+Route::post('/regis', [users::class, 'regis']);
 Route::delete('/auth', [users::class, 'logout']);
 Route::put('/auth', [users::class, 'change']);
-
+Route::get('/user', [users::class, 'index']);
+Route::get('/user/{id}', [users::class, 'block_user']);
+Route::put('/user/{id}', [users::class, 'admin_change']);
+Route::delete('/user/{id}', [users::class, 'destroy']);
 
 Route::apiResource('/courses', courses::class);
 Route::apiResource('/cmt', comment::class);
@@ -28,6 +33,7 @@ Route::apiResource('/topics', topics::class);
 Route::apiResource('/lessons', lessons::class);
 Route::apiResource('/questions', question::class);
 Route::apiResource('/blogs', blogs::class);
+Route::apiResource('/home', Home::class);
 
 Route::post('/code',[question::class, 'test']);
 
